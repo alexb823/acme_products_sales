@@ -9,7 +9,7 @@
     "start": "node server.js",
     "webpack": "webpack",
     "webpack:dev": "npm run webpack -- --mode=development --watch",
-    "start:dev": "npm run webpack:dev & DATABASE_URL=postgres://localhost/products_sales_db nodemon server/server.js --ignore /src --ignore /dist"
+    "start:dev": "npm run webpack:dev & DATABASE_URL=postgres://localhost/products_sales_db nodemon server/server.js --ignore src/ --ignore dist/"
   },
   "keywords": [],
   "author": "",

@@ -50,4 +50,4 @@ const syncAndSeed = () => {
     .catch(err => console.error(err));
 };
 
-module.exports = syncAndSeed;
+module.exports = {Product, syncAndSeed};
