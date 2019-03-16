@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "webpack"
-
+    "postinstall": "webpack",
+    "start": "node server.js",
+    "webpack": "webpack",
+    "webpack:dev": "npm run webpack -- --mode=development --watch",
+    "start:dev": "npm run webpack:dev & DATABASE_URL=postgres://localhost/products_sales_db nodemon server/server.js --ignore /src --ignore /dist"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +21,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "express": "^4.16.4",
     "morgan": "^1.9.1",
     "pg": "^7.9.0",
     "pg-hstore": "^2.3.2",
