@@ -20,12 +20,13 @@ const Nav = ({ location, products, prodOnSale }) => {
             to={navTab.path}
           >
             {navTab.name}
-            {/* add badges for number of products and onsale products */}
+
             {navTab.name === 'Products' ? (
               <span className="badge badge-primary ml-2">
                 {products.length}
               </span>
             ) : null}
+
             {navTab.name === 'Sales' ? (
               <span className="badge badge-primary ml-2">
                 {prodOnSale.length}

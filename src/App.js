@@ -3,6 +3,7 @@ import { HashRouter, Route } from 'react-router-dom';
 import axios from 'axios';
 import Nav from './Nav';
 import Products from './Products';
+import CreateProduct from './CreateProduct';
 
 export default class App extends Component {
   constructor() {
@@ -46,38 +47,36 @@ export default class App extends Component {
     return (
       <div className="container">
         <h1 className="my-4">Acme Products/Sales</h1>
+
         <HashRouter>
-          <div>
-            <Route
-              render={({ location }) => (
-                <Nav
-                  location={location}
-                  products={products}
-                  prodOnSale={prodOnSale}
-                />
-              )}
-            />
+          <Route
+            render={({ location }) => (
+              <Nav
+                location={location}
+                products={products}
+                prodOnSale={prodOnSale}
+              />
+            )}
+          />
 
-            <Route exact path="/" render={() => <h2>Welcome!</h2>} />
+          <Route exact path="/" render={() => <h2>Welcome!</h2>} />
 
-            <Route
-              exact
-              path="/products"
-              render={() => (
-                <Products products={products} deleteProduct={deleteProduct} />
-              )}
-            />
+          <Route
+            exact
+            path="/products"
+            render={() => (
+              <Products products={products} deleteProduct={deleteProduct} />
+            )}
+          />
 
-            <Route
-              exact
-              path="/products/sales"
-              render={() => (
-                <Products products={prodOnSale} deleteProduct={deleteProduct} />
-              )}
-            />
+          <Route
+            path="/products/sales"
+            render={() => (
+              <Products products={prodOnSale} deleteProduct={deleteProduct} />
+            )}
+          />
 
-            <Route exact path="/products/create" />
-          </div>
+          <Route path="/products/create" render={() => <CreateProduct />} />
         </HashRouter>
       </div>
     );
