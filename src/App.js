@@ -9,7 +9,7 @@ export default class App extends Component {
     super();
     this.state = {
       products: [],
-      onSale: [],
+      prodOnSale: [],
     };
   }
 
@@ -20,7 +20,9 @@ export default class App extends Component {
       .then(products =>
         this.setState({
           products,
-          onSale: products.filter(product => product.discountPercentage > 0),
+          prodOnSale: products.filter(
+            product => product.discountPercentage > 0
+          ),
         })
       )
       .catch(err => console.error(err));
@@ -38,7 +40,7 @@ export default class App extends Component {
   };
 
   render() {
-    const { products, onSale } = this.state;
+    const { products, prodOnSale } = this.state;
     const { deleteProduct } = this;
 
     return (
@@ -48,7 +50,11 @@ export default class App extends Component {
           <div>
             <Route
               render={({ location }) => (
-                <Nav location={location} products={products} onSale={onSale} />
+                <Nav
+                  location={location}
+                  products={products}
+                  prodOnSale={prodOnSale}
+                />
               )}
             />
 
@@ -62,7 +68,14 @@ export default class App extends Component {
               )}
             />
 
-            <Route exact path="/products/sales" />
+            <Route
+              exact
+              path="/products/sales"
+              render={() => (
+                <Products products={prodOnSale} deleteProduct={deleteProduct} />
+              )}
+            />
+
             <Route exact path="/products/create" />
           </div>
         </HashRouter>

@@ -51,3 +51,4 @@ const syncAndSeed = () => {
 };
 
 module.exports = {Product, syncAndSeed};
+
