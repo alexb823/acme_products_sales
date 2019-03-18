@@ -24,6 +24,12 @@ app.delete('/api/products/:id', (req, res, next) => {
     .catch(err => console.error(err));
 });
 
+app.post('/api/products', (req, res, next) => {
+  Product.create(req.body)
+  .then(() => res.sendStatus(201))
+  .catch(err => console.error(err))
+})
+
 //handle 404
 app.use((req, res, next) => {
   const err = new Error('Not Found!');

@@ -42,7 +42,7 @@ export default class App extends Component {
 
   render() {
     const { products, prodOnSale } = this.state;
-    const { deleteProduct } = this;
+    const { deleteProduct, fetchProducts } = this;
 
     return (
       <div className="container">
@@ -76,7 +76,12 @@ export default class App extends Component {
             )}
           />
 
-          <Route path="/products/create" render={() => <CreateProduct />} />
+          <Route
+            path="/products/create"
+            render={({ history }) => (
+              <CreateProduct history={history} fetchProducts={fetchProducts} />
+            )}
+          />
         </HashRouter>
       </div>
     );

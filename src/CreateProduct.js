@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class CreateProduct extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       name: '',
       price: '',
@@ -15,14 +16,23 @@ class CreateProduct extends Component {
     this.setState({ [target.name]: target.value });
   };
 
+  handleSubmit = event => {
+    const { history, fetchProducts} = this.props;
+
+    event.preventDefault();
+    axios.post('/api/products', this.state)
+    .then(()=> history.push('/products'))
+    .then(() => fetchProducts())
+    .catch(err => console.error(err));
+  };
 
   render() {
     const { name, price, discountPercentage, availability } = this.state;
-    const { handleChange } = this;
+    const { handleChange, handleSubmit } = this;
     console.log(this.state);
 
     return (
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Name</label>
           <input
@@ -69,6 +79,9 @@ class CreateProduct extends Component {
             <option>discontinued</option>
           </select>
         </div>
+        <button type="submit" className="btn btn-primary">
+          Create
+        </button>
       </form>
     );
   }

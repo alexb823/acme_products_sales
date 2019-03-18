@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+const navTabs = [
+  { name: 'Home', path: '/' },
+  { name: 'Products', path: '/products' },
+  { name: 'Sales', path: '/products/sales' },
+  { name: 'Create', path: '/products/create' },
+];
+
 const Nav = ({ location, products, prodOnSale }) => {
   const pathname = location.pathname;
-
-  const navTabs = [
-    { name: 'Home', path: '/' },
-    { name: 'Products', path: '/products' },
-    { name: 'Sales', path: '/products/sales' },
-    { name: 'Create', path: '/products/create' },
-  ];
 
   return (
     <ul className="nav nav-tabs mb-3">
