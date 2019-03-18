@@ -12,7 +12,7 @@ const Nav = ({ location, products, prodOnSale }) => {
   const pathname = location.pathname;
 
   return (
-    <ul className="nav nav-tabs mb-3">
+    <ul className="nav nav-tabs mb-4">
       {navTabs.map(navTab => (
         <li key={navTab.name} className="nav-item">
           <Link

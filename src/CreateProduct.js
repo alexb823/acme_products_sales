@@ -17,18 +17,40 @@ class CreateProduct extends Component {
   };
 
   handleSubmit = event => {
-    const { history, fetchProducts} = this.props;
-
     event.preventDefault();
-    axios.post('/api/products', this.state)
-    .then(()=> history.push('/products'))
-    .then(() => fetchProducts())
-    .catch(err => console.error(err));
+    const { history, fetchProducts } = this.props;
+    const newProduct = this.state;
+    newProduct.discountPercentage = newProduct.discountPercentage || null;
+
+    axios
+      .post('/api/products', newProduct)
+      .then(() => {
+        if (newProduct.discountPercentage) history.push('/products/sales');
+        else history.push('/products');
+      })
+      .then(() => fetchProducts())
+      .catch(err => console.error(err));
+  };
+
+  validateInputs = () => {
+    const { name, price, discountPercentage } = this.state;
+    const regex = /^[0-9]*(?:\.\d{1,2})?$/; //only numbers with optional 2 decimals
+    if (
+      name.length === 0 ||
+      price.length === 0 ||
+      !regex.test(price) ||
+      (discountPercentage.length > 0 && !regex.test(discountPercentage)) ||
+      parseFloat(discountPercentage) >= 100 ||
+      parseFloat(discountPercentage) <= 0
+    ) {
+      return true;
+    }
+    return false;
   };
 
   render() {
     const { name, price, discountPercentage, availability } = this.state;
-    const { handleChange, handleSubmit } = this;
+    const { handleChange, handleSubmit, validateInputs } = this;
     console.log(this.state);
 
     return (
@@ -79,7 +101,11 @@ class CreateProduct extends Component {
             <option>discontinued</option>
           </select>
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button
+          type="submit"
+          className="btn btn-primary"
+          disabled={validateInputs()}
+        >
           Create
         </button>
       </form>
