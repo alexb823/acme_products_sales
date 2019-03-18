@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "webpack",
-    "start": "node server.js",
+    "start": "node server/server.js",
     "webpack": "webpack",
     "webpack:dev": "npm run webpack -- --mode=development --watch",
     "start:dev": "npm run webpack:dev & DATABASE_URL=postgres://localhost/products_sales_db nodemon server/server.js --ignore src/ --ignore dist/"
