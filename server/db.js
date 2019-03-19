@@ -2,6 +2,14 @@ const Sequelize = require('sequelize');
 
 const db = new Sequelize(process.env.DATABASE_URL, { logging: false });
 
+// // For cloud9 db
+// const db = new Sequelize('products_sales_db', 'ubuntu', 'password', {
+//   host: 'localhost',
+//   dialect: 'postgres',
+//   logging: false,
+// });
+
+
 const Product = db.define('product', {
   name: {
     type: Sequelize.STRING,
@@ -32,6 +40,13 @@ const Product = db.define('product', {
     type: Sequelize.STRING,
     allowNull: false,
   },
+}, {
+  hooks: {
+    beforeValidate: (product, options) => {
+      if (product.discountPercentage === '') product.discountPercentage = 0;
+      product.name = product.name.toLowerCase();
+    }
+  }
 });
 
 const syncAndSeed = () => {

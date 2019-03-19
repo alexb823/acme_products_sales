@@ -5,24 +5,26 @@ class CreateProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      price: '',
-      discountPercentage: '',
-      availability: 'instock',
+      newProduct: {
+        name: '',
+        price: '',
+        discountPercentage: '',
+        availability: 'instock',
+      },
       errorMessage: '',
     };
   }
 
   handleChange = ({ target }) => {
-    this.setState({ [target.name]: target.value });
+    const { newProduct } = this.state;
+    newProduct[target.name] = target.value;
+    this.setState({ newProduct });
   };
 
   handleSubmit = event => {
     event.preventDefault();
     const { history, fetchProducts } = this.props;
-    const newProduct = this.state;
-    newProduct.discountPercentage = newProduct.discountPercentage || 0;
-
+    const { newProduct } = this.state;
     axios
       .post('/api/products', newProduct)
       .then(() => {
@@ -37,26 +39,21 @@ class CreateProduct extends Component {
   };
 
   validateInputs = () => {
-    const { name, price, discountPercentage } = this.state;
-    const regex = /^[0-9]*(?:\.\d{1,2})?$/; //only numbers with optional 2 decimals
+    const { name, price, discountPercentage } = this.state.newProduct;
+    const numRegex = /^[0-9]*(?:\.\d{1,2})?$/; //only numbers with optional 2 decimals
     return (
       name.length === 0 ||
       price.length === 0 ||
-      !regex.test(price) ||
-      (discountPercentage && !regex.test(discountPercentage)) ||
+      !numRegex.test(price) ||
+      (discountPercentage && !numRegex.test(discountPercentage)) ||
       parseFloat(discountPercentage) >= 100 ||
       parseFloat(discountPercentage) <= 0
     );
   };
 
   render() {
-    const {
-      name,
-      price,
-      discountPercentage,
-      availability,
-      errorMessage,
-    } = this.state;
+    const { name, price, discountPercentage, availability } = this.state.newProduct;
+    const { errorMessage } = this.state;
     const { handleChange, handleSubmit, validateInputs } = this;
 
     return (
@@ -64,6 +61,7 @@ class CreateProduct extends Component {
         {errorMessage && (
           <div className="alert alert-danger">{errorMessage}</div>
         )}
+        
         <div className="form-group">
           <label htmlFor="name">Name</label>
           <input
