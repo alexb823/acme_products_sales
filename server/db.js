@@ -5,7 +5,7 @@ const db = new Sequelize(process.env.DATABASE_URL, { logging: false });
 // // For cloud9 db
 // const db = new Sequelize('products_sales_db', 'ubuntu', 'password', {
 //   host: 'localhost',
-//   dialect: 'postgres',
+//   dialect: 'postgres',`
 //   logging: false,
 // });
 

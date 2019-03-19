@@ -34,7 +34,7 @@ class CreateProduct extends Component {
       .then(() => fetchProducts())
       .catch(err => {
         this.setState({ errorMessage: err.response.data });
-        console.log(err);
+        console.log(err.response);
       });
   };
 
@@ -61,7 +61,7 @@ class CreateProduct extends Component {
         {errorMessage && (
           <div className="alert alert-danger">{errorMessage}</div>
         )}
-        
+
         <div className="form-group">
           <label htmlFor="name">Name</label>
           <input

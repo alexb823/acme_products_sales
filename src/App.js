@@ -21,9 +21,7 @@ export default class App extends Component {
       .then(products =>
         this.setState({
           products,
-          prodOnSale: products.filter(
-            product => product.discountPercentage > 0
-          ),
+          prodOnSale: products.filter(product => product.discountPercentage),
         })
       )
       .catch(err => console.error(err));
