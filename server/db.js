@@ -6,6 +6,9 @@ const Product = db.define('product', {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
+    unique: {
+      msg: 'Product name must be unique',
+    },
     validation: {
       notEmpty: true,
     },
@@ -18,7 +21,7 @@ const Product = db.define('product', {
     },
   },
   discountPercentage: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.FLOAT,
     defaultValue: 0,
     validation: {
       min: 0,
@@ -50,5 +53,4 @@ const syncAndSeed = () => {
     .catch(err => console.error(err));
 };
 
-module.exports = {Product, syncAndSeed};
-
+module.exports = { Product, syncAndSeed };

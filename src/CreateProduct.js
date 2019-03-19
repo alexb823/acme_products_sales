@@ -9,6 +9,7 @@ class CreateProduct extends Component {
       price: '',
       discountPercentage: '',
       availability: 'instock',
+      errorMessage: '',
     };
   }
 
@@ -20,7 +21,7 @@ class CreateProduct extends Component {
     event.preventDefault();
     const { history, fetchProducts } = this.props;
     const newProduct = this.state;
-    newProduct.discountPercentage = newProduct.discountPercentage || null;
+    newProduct.discountPercentage = newProduct.discountPercentage || 0;
 
     axios
       .post('/api/products', newProduct)
@@ -29,32 +30,40 @@ class CreateProduct extends Component {
         else history.push('/products');
       })
       .then(() => fetchProducts())
-      .catch(err => console.error(err));
+      .catch(err => {
+        this.setState({ errorMessage: err.response.data });
+        console.log(err);
+      });
   };
 
   validateInputs = () => {
     const { name, price, discountPercentage } = this.state;
     const regex = /^[0-9]*(?:\.\d{1,2})?$/; //only numbers with optional 2 decimals
-    if (
+    return (
       name.length === 0 ||
       price.length === 0 ||
       !regex.test(price) ||
-      (discountPercentage.length > 0 && !regex.test(discountPercentage)) ||
+      (discountPercentage && !regex.test(discountPercentage)) ||
       parseFloat(discountPercentage) >= 100 ||
       parseFloat(discountPercentage) <= 0
-    ) {
-      return true;
-    }
-    return false;
+    );
   };
 
   render() {
-    const { name, price, discountPercentage, availability } = this.state;
+    const {
+      name,
+      price,
+      discountPercentage,
+      availability,
+      errorMessage,
+    } = this.state;
     const { handleChange, handleSubmit, validateInputs } = this;
-    console.log(this.state);
 
     return (
       <form onSubmit={handleSubmit}>
+        {errorMessage && (
+          <div className="alert alert-danger">{errorMessage}</div>
+        )}
         <div className="form-group">
           <label htmlFor="name">Name</label>
           <input

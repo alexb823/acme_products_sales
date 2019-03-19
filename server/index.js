@@ -15,20 +15,22 @@ app.get('/', (req, res, next) => {
 });
 
 app.get('/api/products', (req, res, next) => {
-  Product.findAll().then(products => res.send(products));
+  Product.findAll()
+    .then(products => res.send(products))
+    .catch(next);
 });
 
 app.delete('/api/products/:id', (req, res, next) => {
-  Product.destroy({where: {id: req.params.id}})
+  Product.destroy({ where: { id: req.params.id } })
     .then(res.sendStatus(204))
-    .catch(err => console.error(err));
+    .catch(next);
 });
 
 app.post('/api/products', (req, res, next) => {
   Product.create(req.body)
-  .then(() => res.sendStatus(201))
-  .catch(err => console.error(err))
-})
+    .then(() => res.sendStatus(201))
+    .catch(next);
+});
 
 //handle 404
 app.use((req, res, next) => {
@@ -39,8 +41,9 @@ app.use((req, res, next) => {
 
 // Error catching endware
 app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(err.status || 500).send(err.message || 'Internet server error.');
+  console.error(err.message);
+  res.status(err.status || 500);
+  res.send(err.message || 'Internal server error');
 });
 
 module.exports = app;
